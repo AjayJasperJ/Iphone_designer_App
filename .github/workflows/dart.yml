@@ -18,7 +18,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0' # Use a specific stable version to avoid version detection errors
+          flutter-version: '3.22.0'  # Ensures Dart 3.8.0 is used
 
       - name: Install dependencies
         run: flutter pub get
@@ -46,7 +46,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0' # Use a specific stable version
+          flutter-version: '3.22.0'  # Ensures Dart 3.8.0 is used
 
       - name: Install dependencies
         run: flutter pub get
@@ -54,11 +54,9 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      # Provisioning and code signing are required for actual device IPA exports.
-      # For unsigned builds or simulator builds, adjust accordingly.
+      # Note: For production IPA, you must configure code signing/certificates.
       - name: Build IPA
         run: flutter build ipa --release
-        # If you need to use code signing, insert steps here to set up certificates and provisioning profiles.
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
