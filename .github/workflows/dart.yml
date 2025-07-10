@@ -1,4 +1,4 @@
-name: Flutter-CI-CD
+name: Flutter-Android-iOS-Build
 
 on:
   workflow_dispatch:
