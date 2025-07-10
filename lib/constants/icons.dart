@@ -1,0 +1,30 @@
+class icons {
+  static String google = 'assets/icons/google.png';
+  static String facebook = 'assets/icons/facebook.png';
+  static String apple = 'assets/icons/apple.png';
+  static String illust1 = 'assets/icons/illust1.png';
+  static String illust2 = 'assets/icons/illust2.png';
+  static String illust3 = 'assets/icons/illust3.png';
+  static String illust4 = 'assets/icons/illust4.png';
+  static String illust5 = 'assets/icons/illust5.png';
+  static String illust6 = 'assets/icons/illust6.png';
+  static String illust7 = 'assets/icons/illust7.png';
+  static String illust8 = 'assets/icons/illust8.png';
+  static String iphone = 'assets/icons/iphone.png';
+  static String ipad = 'assets/icons/ipad.png';
+  static String macbook = 'assets/icons/macbook.png';
+  static String imac = 'assets/icons/imac.png';
+  static String ipod = 'assets/icons/ipod.png';
+  static String apple1 = 'assets/icons/apple1.png';
+  static String apple2 = 'assets/icons/apple2.png';
+  static String apple3 = 'assets/icons/apple3.png';
+  static String apple4 = 'assets/icons/apple4.png';
+  static String apple5 = 'assets/icons/apple5.png';
+  static String apple6 = 'assets/icons/apple6.png';
+  static String apple7 = 'assets/icons/apple7.png';
+  static String apple8 = 'assets/icons/apple8.png';
+  static String apple9 = 'assets/icons/apple9.png';
+  static String apple10 = 'assets/icons/apple10.png';
+  static String apple11 = 'assets/icons/apple11.png';
+  static String iwatch = 'assets/icons/iwatch.png';
+}
