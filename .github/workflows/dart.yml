@@ -2,11 +2,6 @@ name: Flutter-Android-iOS-Build
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
 
 jobs:
   build-android:
@@ -29,6 +24,16 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
+      # Create the GitHub release if it does not exist
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0
+          name: v1.0
+          body: "Automated release including the latest APK and IPA."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload APK to GitHub Release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -38,7 +43,6 @@ jobs:
           tag: v1.0
           overwrite: true
           body: "This release includes both Android APK and iOS IPA builds."
-          create_release: true
 
   build-ios:
     name: 🎉 iOS Build
@@ -75,6 +79,16 @@ jobs:
         run: zip -qq -r FlutterIpaExport.ipa Payload
         working-directory: build/ios/iphoneos
 
+      # Create the GitHub release if it does not exist (safe to call again)
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0
+          name: v1.0
+          body: "Automated release including the latest APK and IPA."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload IPA to GitHub Release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -84,4 +98,3 @@ jobs:
           tag: v1.0
           overwrite: true
           body: "This release includes both Android APK and iOS IPA builds."
-          create_release: true
