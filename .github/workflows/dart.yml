@@ -12,14 +12,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.19.0' # Use a specific stable version to avoid version detection errors
+
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
       - name: Build APK
         run: flutter build apk --release
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -31,15 +40,26 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.19.0' # Use a specific stable version
+
       - name: Install dependencies
         run: flutter pub get
-      # Set up code signing here with secrets (certificates/profiles)
+
+      - name: Run tests
+        run: flutter test
+
+      # Provisioning and code signing are required for actual device IPA exports.
+      # For unsigned builds or simulator builds, adjust accordingly.
       - name: Build IPA
         run: flutter build ipa --release
+        # If you need to use code signing, insert steps here to set up certificates and provisioning profiles.
+
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
