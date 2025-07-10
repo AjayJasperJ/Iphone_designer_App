@@ -1,6 +1,7 @@
 name: Flutter CI/CD
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
@@ -32,6 +33,16 @@ jobs:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
+      - name: Upload APK to GitHub Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.apk
+          tag: v1.0
+          overwrite: true
+          body: "Automated release including the latest APK and IPA."
+
   build-ios:
     name: Build iOS IPA (Unsigned)
     runs-on: macos-latest
@@ -56,3 +67,13 @@ jobs:
         with:
           name: app-release.ipa
           path: build/ios/ipa/*.ipa
+
+      - name: Upload IPA to GitHub Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/ios/ipa/*.ipa
+          asset_name: app-release.ipa
+          tag: v1.0
+          overwrite: true
+          body: "Automated release including the latest APK and IPA."
