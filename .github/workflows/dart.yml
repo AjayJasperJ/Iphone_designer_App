@@ -33,7 +33,7 @@ jobs:
           path: build/app/outputs/flutter-apk/app-release.apk
 
   build-ios:
-    name: Build iOS IPA
+    name: Build iOS IPA (Unsigned)
     runs-on: macos-latest
 
     steps:
@@ -48,8 +48,8 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build IPA
-        run: flutter build ipa --release
+      - name: Build Unsigned IPA
+        run: flutter build ipa --release --no-codesign
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
