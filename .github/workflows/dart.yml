@@ -1,16 +1,50 @@
-name: iOS-ipa-build
+name: Flutter-Android-iOS-Build
 
 on:
   workflow_dispatch:
 
 jobs:
+  build-android:
+    name: 🤖 Android Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK to GitHub Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.apk
+          tag: v1.0
+          overwrite: true
+          body: "This release includes both Android APK and iOS IPA builds."
+          create_release: true
+
   build-ios:
     name: 🎉 iOS Build
     runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v2
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           architecture: x64
@@ -18,12 +52,15 @@ jobs:
       - name: Install CocoaPods
         run: sudo gem install cocoapods
 
-      - run: flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
 
-      - run: pod repo update
+      - name: Update CocoaPods repo
+        run: pod repo update
         working-directory: ios
 
-      - run: flutter build ios --release --no-codesign
+      - name: Build iOS (no codesign)
+        run: flutter build ios --release --no-codesign
 
       - name: Prepare Payload
         run: mkdir Payload && mv Runner.app Payload
@@ -33,11 +70,13 @@ jobs:
         run: zip -qq -r FlutterIpaExport.ipa Payload
         working-directory: build/ios/iphoneos
 
-      - name: Upload binaries to release
+      - name: Upload IPA to GitHub Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
+          asset_name: FlutterIpaExport.ipa
           tag: v1.0
           overwrite: true
-          body: "This is the first release of the iOS IPA build."
+          body: "This release includes both Android APK and iOS IPA builds."
+          create_release: true
